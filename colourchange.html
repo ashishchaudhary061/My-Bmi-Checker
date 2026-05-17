@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        body{
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin: 50px;
+            
+            height: 100vh;
+        }
+        .button{
+            height: 100px;
+            width: 100px;
+            border: 2px solid grey;
+            display: inline-block;
+            margin: 10px;
+           
+        }
+        #red {
+            background-color: red;
+        }
+        #green{
+            background-color: green;
+        }
+        #blue{
+            background-color: blue;
+        }
+        #yellow{
+            background-color: yellow;
+        }
+    </style>
+</head>
+<body>
+    <h1>colour scheme switcher</h1>
+    <div>
+     <span class="button" id="red">1</span>
+    <span class="button" id="green">2</span>
+    <span class="button" id="blue">3</span>
+    <span class="button" id="yellow">4</span>
+
+    </div>
+    
+    
+    
+
+    <h2> try clicking one of the colours above</h2>
+    <span>to change the background color of this page</span>
+</body>
+
+<script>
+    const buttons= document.querySelectorAll('.button')
+    const body = document.querySelector("body")
+
+   buttons.forEach(function (b) {
+    b.addEventListener('click' , function (e) {
+         body.style.backgroundColor= e.target.id;
+        
+        // if(e.target.id === 'red'){
+        //     body.style.backgroundColor= e.target.id;
+        // }
+
+        // if(e.target.id === 'blue'){
+        //     body.style.backgroundColor= e.target.id;
+        // }
+
+        // if(e.target.id === 'green'){
+        //     body.style.backgroundColor= e.target.id;
+        // }
+
+        // if(e.target.id === 'yellow'){
+        //     body.style.backgroundColor= e.target.id;
+        // }
+    });
+   });
+</script>
+</html>

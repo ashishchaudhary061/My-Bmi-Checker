@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Smart Health Tracker - Dashboard</title>
+    <link rel="stylesheet" href="css/dashboard.css">
+</head>
+<body>
+    <!-- Navigation Bar -->
+    <nav class="navbar">
+        <div class="navbar-content">
+            <div class="navbar-brand">
+                <h1>🏥 Smart Health Tracker</h1>
+            </div>
+            <div class="navbar-menu">
+                <span id="userNameDisplay" class="user-name"></span>
+                <button class="btn btn-danger" id="logoutBtn">Logout</button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="container">
+        <!-- Alerts Section -->
+        <div id="alertsContainer" class="alerts-section"></div>
+
+        <!-- Dashboard Grid -->
+        <div class="dashboard-grid">
+            <!-- Real-Time Metrics -->
+            <section class="metrics-section">
+                <h2>📊 Real-Time Metrics</h2>
+                
+                <div class="metrics-grid">
+                    <!-- Heart Rate Card -->
+                    <div class="metric-card heart-rate">
+                        <div class="metric-icon">❤️</div>
+                        <div class="metric-content">
+                            <p class="metric-label">Heart Rate</p>
+                            <p class="metric-value" id="heartRateValue">--</p>
+                            <p class="metric-unit">BPM</p>
+                            <p class="metric-status" id="heartRateStatus">Waiting for data...</p>
+                        </div>
+                    </div>
+
+                    <!-- Temperature Card -->
+                    <div class="metric-card temperature">
+                        <div class="metric-icon">🌡️</div>
+                        <div class="metric-content">
+                            <p class="metric-label">Temperature</p>
+                            <p class="metric-value" id="temperatureValue">--</p>
+                            <p class="metric-unit">°C</p>
+                            <p class="metric-status" id="temperatureStatus">Waiting for data...</p>
+                        </div>
+                    </div>
+
+                    <!-- SpO2 Card -->
+                    <div class="metric-card spo2">
+                        <div class="metric-icon">💨</div>
+                        <div class="metric-content">
+                            <p class="metric-label">Blood Oxygen</p>
+                            <p class="metric-value" id="spo2Value">--</p>
+                            <p class="metric-unit">%</p>
+                            <p class="metric-status" id="spo2Status">Waiting for data...</p>
+                        </div>
+                    </div>
+
+                    <!-- Steps Card -->
+                    <div class="metric-card steps">
+                        <div class="metric-icon">👣</div>
+                        <div class="metric-content">
+                            <p class="metric-label">Steps Count</p>
+                            <p class="metric-value" id="stepsValue">--</p>
+                            <p class="metric-unit">steps today</p>
+                            <p class="metric-status" id="stepsStatus">Waiting for data...</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Statistics Section -->
+            <section class="stats-section">
+                <h2>📈 24-Hour Statistics</h2>
+                <div class="stats-container">
+                    <div class="stat-item">
+                        <label>Avg Heart Rate</label>
+                        <p class="stat-value" id="avgHeartRate">--</p>
+                    </div>
+                    <div class="stat-item">
+                        <label>Max Heart Rate</label>
+                        <p class="stat-value" id="maxHeartRate">--</p>
+                    </div>
+                    <div class="stat-item">
+                        <label>Min Heart Rate</label>
+                        <p class="stat-value" id="minHeartRate">--</p>
+                    </div>
+                    <div class="stat-item">
+                        <label>Avg Temperature</label>
+                        <p class="stat-value" id="avgTemperature">--</p>
+                    </div>
+                    <div class="stat-item">
+                        <label>Avg SpO2</label>
+                        <p class="stat-value" id="avgSpo2">--</p>
+                    </div>
+                    <div class="stat-item">
+                        <label>Total Steps</label>
+                        <p class="stat-value" id="totalSteps">--</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Chart Section -->
+            <section class="chart-section">
+                <h2>📉 Heart Rate Trend (Last 24 Hours)</h2>
+                <canvas id="heartRateChart"></canvas>
+            </section>
+
+            <!-- Alerts History -->
+            <section class="alerts-history-section">
+                <h2>🚨 Recent Alerts</h2>
+                <div class="controls">
+                    <button class="btn btn-secondary" id="refreshAlertsBtn">Refresh</button>
+                </div>
+                <div id="alertsHistoryContainer" class="alerts-history"></div>
+            </section>
+
+            <!-- Data Table -->
+            <section class="data-table-section">
+                <h2>📋 Sensor Readings History</h2>
+                <div class="table-controls">
+                    <input type="number" id="hoursFilter" min="1" max="168" value="24" placeholder="Hours">
+                    <button class="btn btn-secondary" id="filterDataBtn">Filter</button>
+                    <button class="btn btn-secondary" id="exportCsvBtn">Export CSV</button>
+                </div>
+                <div class="table-wrapper">
+                    <table id="dataTable" class="data-table">
+                        <thead>
+                            <tr>
+                                <th>Time</th>
+                                <th>Heart Rate (BPM)</th>
+                                <th>Temperature (°C)</th>
+                                <th>SpO2 (%)</th>
+                                <th>Steps</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tableBody">
+                            <tr>
+                                <td colspan="5" class="loading">Loading data...</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+        </div>
+    </div>
+
+    <!-- Modal for Alert Details -->
+    <div id="alertModal" class="modal hidden">
+        <div class="modal-content">
+            <span class="close" onclick="closeAlertModal()">&times;</span>
+            <h2>Alert Details</h2>
+            <div id="alertDetails"></div>
+            <button class="btn btn-primary" id="resolveAlertBtn">Mark as Resolved</button>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@3.9.1/dist/chart.min.js"></script>
+    <script src="js/dashboard.js"></script>
+</body>
+</html>

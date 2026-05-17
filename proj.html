@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Smart Health Tracker Dashboard</title>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<style>
+:root {
+    --bg: #f4f6f9;
+    --card: white;
+    --text: #222;
+}
+
+body.dark {
+    --bg: #1e1e2f;
+    --card: #2c2c3c;
+    --text: #fff;
+}
+
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    transition: 0.3s;
+}
+
+header {
+    padding: 20px;
+    text-align: center;
+    font-size: 24px;
+    font-weight: bold;
+}
+
+.container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 20px;
+    padding: 20px;
+}
+
+.card {
+    background: var(--card);
+    padding: 20px;
+    width: 250px;
+    border-radius: 12px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    text-align: center;
+    transition: 0.3s;
+}
+
+.card:hover {
+    transform: scale(1.05);
+}
+
+.value {
+    font-size: 28px;
+    font-weight: bold;
+}
+
+.status {
+    margin-top: 10px;
+    font-weight: bold;
+}
+
+.normal { color: green; }
+.warning { color: orange; }
+.critical { color: red; }
+
+canvas {
+    max-width: 800px;
+    margin: 30px auto;
+    display: block;
+}
+
+.toggle {
+    position: absolute;
+    right: 20px;
+    top: 20px;
+    cursor: pointer;
+    padding: 8px 12px;
+    background: #007bff;
+    color: white;
+    border-radius: 6px;
+    font-size: 14px;
+}
+</style>
+</head>
+
+<body>
+
+<div class="toggle" onclick="toggleDark()">Toggle Dark Mode</div>
+
+<header>🏥 Smart Health Monitoring Dashboard</header>
+
+<div class="container">
+    <div class="card">
+        ❤️ Heart Rate
+        <div class="value" id="hr">--</div>
+        <div class="status" id="hrStatus"></div>
+    </div>
+
+    <div class="card">
+        🫁 SpO₂
+        <div class="value" id="spo2">--</div>
+        <div class="status" id="spo2Status"></div>
+    </div>
+
+    <div class="card">
+        🌡 Temperature
+        <div class="value" id="temp">--</div>
+        <div class="status" id="tempStatus"></div>
+    </div>
+</div>
+
+<canvas id="chart"></canvas>
+
+<script>
+const hrEl = document.getElementById("hr");
+const spo2El = document.getElementById("spo2");
+const tempEl = document.getElementById("temp");
+
+const hrStatus = document.getElementById("hrStatus");
+const spo2Status = document.getElementById("spo2Status");
+const tempStatus = document.getElementById("tempStatus");
+
+const ctx = document.getElementById("chart").getContext("2d");
+
+let chart = new Chart(ctx, {
+    type: 'line',
+    data: {
+        labels: [],
+        datasets: [{
+            label: 'Heart Rate',
+            borderColor: 'red',
+            data: [],
+            fill: false,
+            tension: 0.3
+        }]
+    },
+    options: {
+        responsive: true,
+        scales: {
+            y: { beginAtZero: false }
+        }
+    }
+});
+
+function generateData() {
+    let hr = Math.floor(Math.random() * 40) + 60;
+    let spo2 = Math.floor(Math.random() * 5) + 95;
+    let temp = (Math.random() * 1 + 36).toFixed(1);
+
+    updateUI(hr, spo2, temp);
+}
+
+function updateUI(hr, spo2, temp) {
+    hrEl.textContent = hr + " BPM";
+    spo2El.textContent = spo2 + " %";
+    tempEl.textContent = temp + " °C";
+
+    updateStatus(hr, spo2, temp);
+
+    const time = new Date().toLocaleTimeString();
+    chart.data.labels.push(time);
+    chart.data.datasets[0].data.push(hr);
+
+    if (chart.data.labels.length > 10) {
+        chart.data.labels.shift();
+        chart.data.datasets[0].data.shift();
+    }
+
+    chart.update();
+}
+
+function updateStatus(hr, spo2, temp) {
+
+    if (hr > 120) {
+        hrStatus.textContent = "Critical";
+        hrStatus.className = "status critical";
+    } else if (hr > 100) {
+        hrStatus.textContent = "Warning";
+        hrStatus.className = "status warning";
+    } else {
+        hrStatus.textContent = "Normal";
+        hrStatus.className = "status normal";
+    }
+
+    if (spo2 < 92) {
+        spo2Status.textContent = "Critical";
+        spo2Status.className = "status critical";
+    } else {
+        spo2Status.textContent = "Normal";
+        spo2Status.className = "status normal";
+    }
+
+    if (temp > 38) {
+        tempStatus.textContent = "Fever";
+        tempStatus.className = "status warning";
+    } else {
+        tempStatus.textContent = "Normal";
+        tempStatus.className = "status normal";
+    }
+}
+
+function toggleDark() {
+    document.body.classList.toggle("dark");
+}
+
+setInterval(generateData, 2000);
+</script>
+
+</body>
+</html>

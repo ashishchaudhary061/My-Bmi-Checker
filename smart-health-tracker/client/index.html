@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Smart Health Tracker - Authentication</title>
+    <link rel="stylesheet" href="css/auth.css">
+</head>
+<body>
+    <div class="container">
+        <div class="auth-wrapper">
+            <!-- Login Form -->
+            <div class="auth-form login-form" id="loginForm">
+                <div class="auth-header">
+                    <h1>🏥 Smart Health Tracker</h1>
+                    <p>Monitor your health in real-time</p>
+                </div>
+
+                <form class="form" id="submitLoginForm">
+                    <div class="form-group">
+                        <label for="loginEmail">Email Address</label>
+                        <input 
+                            type="email" 
+                            id="loginEmail" 
+                            placeholder="Enter your email" 
+                            required
+                        >
+                    </div>
+
+                    <div class="form-group">
+                        <label for="loginPassword">Password</label>
+                        <input 
+                            type="password" 
+                            id="loginPassword" 
+                            placeholder="Enter your password" 
+                            required
+                        >
+                    </div>
+
+                    <button type="submit" class="btn btn-primary">Login</button>
+                </form>
+
+                <p class="form-toggle">
+                    Don't have an account? 
+                    <a href="#" onclick="toggleForms()">Sign up</a>
+                </p>
+            </div>
+
+            <!-- Signup Form -->
+            <div class="auth-form signup-form hidden" id="signupForm">
+                <div class="auth-header">
+                    <h1>🏥 Smart Health Tracker</h1>
+                    <p>Create your account</p>
+                </div>
+
+                <form class="form" id="submitSignupForm">
+                    <div class="form-group">
+                        <label for="signupName">Full Name</label>
+                        <input 
+                            type="text" 
+                            id="signupName" 
+                            placeholder="Enter your name" 
+                            required
+                        >
+                    </div>
+
+                    <div class="form-group">
+                        <label for="signupEmail">Email Address</label>
+                        <input 
+                            type="email" 
+                            id="signupEmail" 
+                            placeholder="Enter your email" 
+                            required
+                        >
+                    </div>
+
+                    <div class="form-group">
+                        <label for="signupPassword">Password</label>
+                        <input 
+                            type="password" 
+                            id="signupPassword" 
+                            placeholder="Min 6 characters" 
+                            minlength="6" 
+                            required
+                        >
+                    </div>
+
+                    <button type="submit" class="btn btn-primary">Sign Up</button>
+                </form>
+
+                <p class="form-toggle">
+                    Already have an account? 
+                    <a href="#" onclick="toggleForms()">Login</a>
+                </p>
+            </div>
+
+            <!-- Status Messages -->
+            <div id="statusMessage" class="status-message"></div>
+        </div>
+    </div>
+
+    <script src="js/auth.js"></script>
+</body>
+</html>

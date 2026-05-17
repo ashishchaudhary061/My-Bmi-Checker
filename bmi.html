@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        body{
+            height: 100vh;
+            margin: 0px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: beige;
+        }
+        .container{
+            border: 2px solid black;
+            padding: 25px;
+            background-color: brown;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>BMI Calculator</h1>
+
+        <form action="">
+            <p><label for="">Height in cm = </label> <input type="text" id="height"></p>
+            <p><label for="">Weight in kg = </label><input type="text" id="weight"></p>
+            <button>Calculate</button>
+            <div id="results"></div>
+            <div>
+                <h2>bmi weight guide</h2>
+                <p>under weight = less than 18.6</p>
+                <p> normal = more than 18.6 and less than 24.9</p>
+                <p> overweight = more than 24.9 and less than 30</p>
+                <p> obese = more then 30 </p>
+
+            </div>
+        </form>
+    </div>
+</body>
+<script>
+    const form = document.querySelector('form')
+
+    form.addEventListener('submit' , function(e){
+        e.preventDefault()  // it is used you to stop the default action of form sending the data to server
+
+        const height = parseInt(document.querySelector('#height').value)
+        const weight = parseInt(document.querySelector("#weight").value) 
+        const result = document.querySelector("#results")
+
+        if(height ==='' || height < 0 || isNaN(height)){
+            result.innerHTML=`not a valid height ${height}`;
+        }
+        else if(weight ==='' || weight < 0 || isNaN(weight)){
+            result.innerHTML=`not a valid weight ${weight}`;
+        } 
+        else{
+            const bmi = (weight / ((height*height)/10000)).toFixed(2);
+
+            let category ="";
+            if(bmi < 18.6 ) category = "underweight" ;
+            else if (bmi < 24.9) category = "normal" ;
+            else if ( bmi < 30 ) category = "overweight" ; 
+            else  category = "obese" ;
+
+            result.innerHTML=`<span>${bmi}</span> <span>- ${category}</span>`;
+        }
+    })
+</script>
+</html>

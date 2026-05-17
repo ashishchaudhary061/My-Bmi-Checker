@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Smart Health Tracker</title>
+    <link rel="stylesheet" href="smarthealthtracker.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    
+
+</head>
+<body>
+    <div class="app">
+
+        <header>
+            <h1>Smart Health Tracker</h1>
+            <button id="notifyBtn" class="btn">Enable reminders</button>
+        </header>
+
+        <Section class="dashboard">
+            <div class="card glow">
+                <h2 id="stepCount">0</h2>
+                <p>steps</p>
+            </div>
+
+             <div class="card glow">
+                <h2 id="waterCount">0</h2>
+                <p>water(ml)</p>
+            </div>
+
+             <div class="card glow">
+                <h2 id="exerciseCount">0</h2>
+                <p>exercise(min)</p>
+            </div>
+        </Section>
+
+        <section>
+            <input type="number"  id="stepInput" placeholder="Add Steps">
+            <input type="number"  id="waterInput" placeholder="Add Water (ml)">
+            <input type="number"  id="exerciseInput" placeholder="Add Exercise (min)">
+            <button id="addBtn" class="btn">Add Activity</button>
+
+        </section>
+
+        <section class="chartSection">
+            <canvas id="progressChart"></canvas>
+        </section>
+
+
+
+
+    </div>
+
+    <script src="script.js"></script>
+    
+</body>
+</html>
